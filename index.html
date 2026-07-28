@@ -1,1 +1,683 @@
-FULL_HTML_PLACEHOLDER_FOR_NOW
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WoW Mount Blitz Guide • High-Volume Single Session | Midnight 2026</title>
+<style>
+  :root {
+    --bg: #0b0d17;
+    --bg-card: #13162a;
+    --bg-elevated: #1a1e35;
+    --border: #2a2f4a;
+    --text: #e8eaf6;
+    --text-muted: #a0a5c0;
+    --gold: #f0c14b;
+    --gold-dim: #c9a227;
+    --purple: #8b5cf6;
+    --green: #34d399;
+    --blue: #60a5fa;
+    --radius: 12px;
+    --shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(240, 193, 75, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+  header { text-align: center; padding: 3.5rem 1rem 2.5rem; }
+  header h1 {
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--gold), #fff, var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+  }
+  header .tagline { font-size: 1.15rem; color: var(--text-muted); max-width: 540px; margin: 0 auto 1.5rem; }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+  .badge {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .badge.gold { border-color: var(--gold-dim); color: var(--gold); }
+  .badge.green { border-color: var(--green); color: var(--green); }
+  section { margin-bottom: 2.75rem; }
+  h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.1rem; display: flex; align-items: center; gap: 0.6rem; }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.35rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+  }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .addon-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.25rem;
+  }
+  .addon-card h3 { font-size: 1rem; color: var(--gold); margin-bottom: 0.35rem; }
+  .addon-card p { font-size: 0.88rem; color: var(--text-muted); }
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(42,47,74,0.5);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check {
+    width: 1.25rem; height: 1.25rem;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    background: var(--bg);
+  }
+  .timeline { position: relative; padding-left: 1.5rem; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.45rem; top: 0.5rem; bottom: 0.5rem;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--purple), var(--gold));
+    border-radius: 2px;
+  }
+  .step { position: relative; margin-bottom: 1.5rem; }
+  .step::before {
+    content: '';
+    position: absolute;
+    left: -1.35rem; top: 0.55rem;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 3px solid var(--purple);
+    z-index: 1;
+  }
+  .step.guaranteed::before { border-color: var(--green); background: var(--green); }
+  .step-header { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+  .step-num { font-weight: 700; color: var(--gold); font-size: 0.95rem; }
+  .step-title { font-weight: 650; font-size: 1.05rem; }
+  .time {
+    font-size: 0.8rem;
+    background: var(--bg-elevated);
+    padding: 0.15rem 0.55rem;
+    border-radius: 6px;
+    color: var(--text-muted);
+  }
+  .tag {
+    font-size: 0.72rem; font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .tag.guaranteed { background: rgba(52, 211, 153, 0.15); color: var(--green); }
+  .tag.chance { background: rgba(240, 193, 75, 0.12); color: var(--gold); }
+  .tag.midnight { background: rgba(139, 92, 246, 0.15); color: var(--purple); }
+  .mounts { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0; }
+  .mount {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+  }
+  .mount strong { color: var(--gold); }
+  .coords {
+    font-family: ui-monospace, 'Cascadia Code', monospace;
+    background: #0a0c14;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.45rem 0.7rem;
+    font-size: 0.8rem;
+    color: var(--blue);
+    margin: 0.5rem 0;
+    display: inline-block;
+    user-select: all;
+  }
+  .tip { font-size: 0.88rem; color: var(--text-muted); margin-top: 0.4rem; }
+  details.how-to {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-top: 0.85rem;
+    margin-bottom: 0.25rem;
+    overflow: hidden;
+  }
+  details.how-to > summary {
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.92rem;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--gold);
+    background: transparent;
+  }
+  details.how-to > summary::-webkit-details-marker { display: none; }
+  details.how-to > summary::after {
+    content: '+';
+    font-size: 1.15rem;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  details.how-to[open] > summary::after {
+    content: '−';
+  }
+  details.how-to .how-to-body {
+    padding: 0 1rem 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  details.how-to .how-to-body ol {
+    margin: 0.6rem 0 0.6rem 1.2rem;
+  }
+  details.how-to .how-to-body li {
+    margin-bottom: 0.35rem;
+  }
+  details.how-to .how-to-body .note {
+    margin-top: 0.6rem;
+    padding: 0.5rem 0.7rem;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .yield-box {
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  .yield-box h3 { font-size: 1.15rem; margin-bottom: 0.4rem; color: var(--green); }
+  .yield-box p { color: var(--text-muted); font-size: 0.95rem; }
+  .yield-number { font-size: 2.4rem; font-weight: 800; color: var(--gold); line-height: 1.1; margin: 0.3rem 0; }
+  details {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+  }
+  summary {
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; font-size: 1.3rem; color: var(--gold); }
+  details[open] summary::after { content: '−'; }
+  .details-body { padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--border); }
+  .details-body ul { list-style: none; padding-top: 0.75rem; }
+  .details-body li {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(42,47,74,0.4);
+    font-size: 0.92rem;
+    display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; align-items: baseline;
+  }
+  .details-body li:last-child { border-bottom: none; }
+  .source { color: var(--text-muted); font-size: 0.82rem; }
+  .rate {
+    font-size: 0.75rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-muted);
+  }
+  .rate.high { color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .tip-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    border: 1px solid var(--border);
+  }
+  .tip-card strong { color: var(--gold); display: block; margin-bottom: 0.3rem; }
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+  @media (max-width: 600px) {
+    .container { padding: 0 1rem 3rem; }
+    header { padding: 2.5rem 0.5rem 1.75rem; }
+    .step-header { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Mount Blitz Guide</h1>
+      <p class="tagline">High-volume, low-marathon path for a new player.<br>Get a lot of mounts fast in one focused session.<br><span style="font-size:0.92rem;opacity:0.8;">Smart time investment — big collection progress with zero cash outlay.</span></p>
+      <div class="badge-row">
+        <span class="badge gold">Midnight 2026</span>
+        <span class="badge">3–5 Hour Session</span>
+        <span class="badge green">Guaranteed Core</span>
+        <span class="badge">Solo Friendly</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <section>
+      <div class="card" style="background: linear-gradient(90deg, rgba(139,92,246,0.08), transparent);">
+        <strong style="color: var(--purple);">Assumptions</strong>
+        <p style="margin-top: 0.4rem; color: var(--text-muted); font-size: 0.95rem;">
+          Level ~80–90 • Almost no dungeon/raid mounts • Limited gold preferred • Can easily solo pre-DF content • Either faction • Flying unlocked
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="icon">🧩</span> Recommended Addons</h2>
+      <div class="card-grid">
+        <div class="addon-card">
+          <h3>Mount Route Planner</h3>
+          <p>Auto-scans your collection and builds optimized live routes with waypoints. Best single addon for this plan.</p>
+        </div>
+        <div class="addon-card">
+          <h3>TomTom</h3>
+          <p>Arrow + precise coordinate waypoints. Paste the /way commands below for instant navigation.</p>
+        </div>
+        <div class="addon-card">
+          <h3>All The Things</h3>
+          <p>Shows every missing collectible in the current zone so you never overlook free mounts.</p>
+        </div>
+        <div class="addon-card">
+          <h3>RareScanner + HandyNotes</h3>
+          <p>Instant rare alerts and map pins while you travel between farms.</p>
+        </div>
+      </div>
+      <p style="margin-top: 0.8rem; font-size: 0.88rem; color: var(--text-muted);">Also useful: Rarity (drop tracking) and SavedInstances (lockouts).</p>
+    </section>
+
+    <section>
+      <h2><span class="icon">✅</span> Prep Checklist</h2>
+      <div class="card">
+        <ul class="checklist">
+          <li><span class="check"></span> Install the addons above and open Mount Route Planner once so it can scan your collection</li>
+          <li><span class="check"></span> Set Hearth to a convenient hub (capital, Dalaran, Oribos, or Silvermoon)</li>
+          <li><span class="check"></span> Grab free portals (mage portals, Legion Dalaran hearth if available)</li>
+          <li><span class="check"></span> Optional high-value: Run a few Class Trials for missing racial mounts (account progress)</li>
+          <li><span class="check"></span> Clear bags, repair, and have a little gold for travel/repairs</li>
+        </ul>
+        <details class="how-to" style="margin-top: 1rem;">
+          <summary>General Mechanics (difficulty, lockouts, portals)</summary>
+          <div class="how-to-body">
+            <p><strong>Difficulty:</strong> Right-click your character portrait → Raid Difficulty or Dungeon Difficulty. For old raids use <strong>Legacy</strong> size (10/25). For dungeons set <strong>Heroic</strong>.</p>
+            <p style="margin-top:0.5rem;"><strong>Lockouts:</strong> Most Heroic dungeons reset daily. Old raids are weekly (or flexible at max level). Many legacy lockouts are per-character — use SavedInstances.</p>
+            <p style="margin-top:0.5rem;"><strong>Instance limit:</strong> ~10 instances per hour account-wide. Plan runs accordingly.</p>
+            <p style="margin-top:0.5rem;"><strong>Portals:</strong> Capital city portals, Legion Dalaran hearth, Oribos, Caverns of Time portal in Tanaris.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="icon">🗺️</span> Single-Session Route</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1.25rem; font-size: 0.95rem;">Geographic clusters to minimize travel. Do these in order. Click any mount for the full how-to.</p>
+
+      <div class="timeline">
+
+        <div class="step guaranteed">
+          <div class="step-header">
+            <span class="step-num">01</span>
+            <span class="step-title">Northrend — Guaranteed Drakes</span>
+            <span class="time">45–75 min</span>
+            <span class="tag guaranteed">100%</span>
+          </div>
+          <div class="card">
+            <div class="mounts">
+              <span class="mount"><strong>Black Drake</strong> (10-man)</span>
+              <span class="mount"><strong>Twilight Drake</strong> (25-man)</span>
+              <span class="mount"><strong>Bronze Drake</strong></span>
+            </div>
+            <p class="tip"><strong>Obsidian Sanctum</strong> — Under Wyrmrest Temple, Dragonblight</p>
+            <div class="coords">/way Dragonblight 59.5 49.5 Obsidian Sanctum</div>
+
+            <details class="how-to">
+              <summary>Black Drake (10-player) — Full Steps</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Right-click portrait → Raid Difficulty → <strong>Legacy</strong> → 10-player.</li>
+                  <li>Enter the instance.</li>
+                  <li><strong>Do not</strong> attack or pull the three Twilight Drakes (Tenebron, Shadron, Vesperon) on the outer ring. Run/fly straight past them to the center.</li>
+                  <li>Kill Sartharion (dies in seconds at current levels). The three drakes join but are harmless.</li>
+                  <li>Loot Sartharion — mount is guaranteed.</li>
+                </ol>
+                <div class="note">If you accidentally pull a side drake, leave and reset the instance. Extremely fast (2–5 min once inside). Same lockout as the Twilight version.</div>
+              </div>
+            </details>
+
+            <details class="how-to">
+              <summary>Twilight Drake (25-player) — Full Steps</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Right-click portrait → Raid Difficulty → <strong>Legacy</strong> → 25-player.</li>
+                  <li>Enter (or re-enter after the 10-man run).</li>
+                  <li>Exact same process: leave the three side drakes alive, kill only Sartharion.</li>
+                  <li>Loot for the Twilight Drake.</li>
+                </ol>
+                <div class="note">Do the 10-man first, leave, switch size, go back in. Still completely soloable at level 90.</div>
+              </div>
+            </details>
+
+            <p class="tip" style="margin-top: 1rem;"><strong>Culling of Stratholme Heroic</strong> (Caverns of Time, Tanaris)</p>
+            <details class="how-to">
+              <summary>Bronze Drake — Full Timed Run</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Set Dungeon Difficulty to <strong>Heroic</strong>.</li>
+                  <li>Enter Culling of Stratholme (portal from capital or fly to Tanaris → CoT).</li>
+                  <li>Talk to Chromie if needed, start the event with Arthas.</li>
+                  <li>Clear the waves of Scourge (flags on map). There are 10 waves + bosses (Meathook, Salramm, Chrono-Lord Epoch).</li>
+                  <li>After Epoch, follow Arthas into the town hall / bookshelves path.</li>
+                  <li>Instead of going right to Mal’Ganis, go left/up the path to find the <strong>Infinite Corruptor</strong>.</li>
+                  <li>Kill him before the 25-minute timer expires.</li>
+                  <li>Mount drops for everyone present.</li>
+                </ol>
+                <div class="note">Timer starts when the first wave begins. At max level the whole run is trivial — AoE everything and push hard. You do <strong>not</strong> need to kill Mal’Ganis. Daily lockout.</div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="step guaranteed">
+          <div class="step-header">
+            <span class="step-num">02</span>
+            <span class="step-title">Eastern Kingdoms — Amani Bear</span>
+            <span class="time">20–30 min</span>
+            <span class="tag guaranteed">100%</span>
+          </div>
+          <div class="card">
+            <div class="mounts">
+              <span class="mount"><strong>Amani Battle Bear</strong></span>
+            </div>
+            <p class="tip"><strong>Zul’Aman Heroic</strong> timed run</p>
+            <div class="coords">/way Ghostlands 81.8 64.3 Zul'Aman</div>
+
+            <details class="how-to">
+              <summary>Amani Battle Bear — Full Timed Run</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Set Dungeon Difficulty to <strong>Heroic</strong>.</li>
+                  <li>Enter Zul’Aman and talk to the NPC (Harrison Jones / Vol’jin equivalent) to open the gates and start the timer.</li>
+                  <li>Kill the first four animal bosses within the time limit (starts at 15 min; first two bosses each add 5 min → 25 min total).</li>
+                  <li>Recommended order for speed: <strong>Akil’zon (Eagle) → Nalorakk (Bear) → Jan’alai (Dragonhawk) → Halazzi (Lynx)</strong>.</li>
+                  <li>After the fourth boss, free Kasha (the prisoner). She opens bags; one contains the Amani Battle Bear.</li>
+                </ol>
+                <div class="note">Skip as many trash packs as possible. You do <strong>not</strong> need to free the other prisoners during the run — only free Kasha at the end. Soloable and fast. Daily lockout.</div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <span class="step-num">03</span>
+            <span class="step-title">Shadowlands Easy Chain</span>
+            <span class="time">30–60 min</span>
+            <span class="tag chance">High Success</span>
+          </div>
+          <div class="card">
+            <div class="mounts">
+              <span class="mount"><strong>Wild Seed Cradle</strong></span>
+              <span class="mount"><strong>Arboreal Gulper</strong></span>
+              <span class="mount"><strong>Shimmermist Runner</strong></span>
+              <span class="mount">Sundancer / others</span>
+            </div>
+            <p class="tip">Portal to Oribos → Ardenweald (and Bastion if time).</p>
+
+            <details class="how-to">
+              <summary>Wild Seed Cradle — Full Steps</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Collect the 5 gardening tools in the <strong>Garden of Night</strong> (west/central Ardenweald):
+                    <ul style="margin:0.3rem 0 0.3rem 1rem;">
+                      <li>Gardener’s Basket ≈ <code>/way 40.3 52.6</code></li>
+                      <li>Gardener’s Hammer ≈ <code>/way 39.7 54.4</code></li>
+                      <li>Diary of the Night (book) — upper area on a bench</li>
+                      <li>Gardener’s Flute ≈ <code>/way 38.5 58.1</code></li>
+                      <li>Gardener’s Wand ≈ <code>/way 38.8 60.1</code> (under a cart)</li>
+                    </ul>
+                  </li>
+                  <li>Right-click any tool in bags → combine into <strong>Twinklestar’s Gardening Toolkit</strong>.</li>
+                  <li>Go to Tirna Vaal (eastern Ardenweald) ≈ <code>/way 64.0 37.4</code>.</li>
+                  <li>Talk to Twinklestar and hand over the toolkit.</li>
+                  <li>You receive the Moonsight buff → the Cache of the Moon becomes visible directly behind her.</li>
+                  <li>Loot the cache for the Wild Seed Cradle.</li>
+                </ol>
+                <div class="note">Tools have no respawn issues; multiple players can loot. Takes 10–20 minutes total.</div>
+              </div>
+            </details>
+
+            <details class="how-to">
+              <summary>Arboreal Gulper — Full Steps</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Farm any mobs in Ardenweald until you loot an <strong>Unusually Large Mushroom</strong> (low drop rate, ~1–5%).</li>
+                  <li>The mushroom lasts ~20 minutes — go immediately to the Damp Loam pile (large dirt mound, northwest).</li>
+                  <li>Plant the mushroom.</li>
+                  <li>Humon’gozz (giant mushroom rare) spawns.</li>
+                  <li>Kill it → 100% chance at the Arboreal Gulper.</li>
+                </ol>
+                <div class="note">Can take 10–60+ minutes depending on mushroom luck. Group optional but not required at max level.</div>
+              </div>
+            </details>
+
+            <details class="how-to">
+              <summary>Shimmermist Runner — Maze Path</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Find the scroll “Tale of the Tangle” ≈ <code>/way 32.5 53.0</code> and read it.</li>
+                  <li>Enter the maze and follow <strong>only</strong> the arches with blue lanterns. Avoid red or no-lantern arches.</li>
+                  <li>Correct path (approximate forks): Left → Right → Left → Right → Straight → Left/West into the clearing.</li>
+                  <li>Kill Shizgher.</li>
+                  <li>Click the Shimmermist Runner that was being held.</li>
+                </ol>
+                <div class="note">Dying does not reset progress. If you take a wrong turn the target may despawn — leave the area to reset. Takes 5–15 minutes once you know the path. Many YouTube videos show the exact route.</div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <span class="step-num">04</span>
+            <span class="step-title">Outland Daily-Style</span>
+            <span class="time">20–40 min</span>
+            <span class="tag chance">Chance</span>
+          </div>
+          <div class="card">
+            <div class="mounts">
+              <span class="mount"><strong>Raven Lord</strong></span>
+              <span class="mount"><strong>Swift White Hawkstrider</strong></span>
+            </div>
+
+            <details class="how-to">
+              <summary>Raven Lord (Sethekk Halls HC)</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Set Dungeon Difficulty to <strong>Heroic</strong>.</li>
+                  <li>Enter Sethekk Halls (Auchindoun, Terokkar Forest).</li>
+                  <li>Clear to the second boss area (or skip as much as possible).</li>
+                  <li>Anzu is the Heroic-only boss (summoned / appears in the middle section).</li>
+                  <li>Kill Anzu and loot for the chance at Raven Lord (~1%).</li>
+                </ol>
+                <div class="note">Short dungeon. Daily Heroic lockout. Can be combined with Magisters’ Terrace in the same Outland session. At max level the whole instance takes a few minutes.</div>
+              </div>
+            </details>
+
+            <details class="how-to">
+              <summary>Swift White Hawkstrider (Magisters’ Terrace HC)</summary>
+              <div class="how-to-body">
+                <ol>
+                  <li>Set Dungeon Difficulty to <strong>Heroic</strong>.</li>
+                  <li>Enter Magisters’ Terrace (Isle of Quel’Danas).</li>
+                  <li>Clear all four bosses (Selin Fireheart → Vexallus → Priestess Delrissa → Kael’thas).</li>
+                  <li>Loot Kael’thas for the chance at the mount (~3%).</li>
+                </ol>
+                <div class="note">No key required anymore. Daily Heroic lockout. Very short and easy at current levels. Can be done every day until it drops.</div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <span class="step-num">05</span>
+            <span class="step-title">Midnight Quick Wins</span>
+            <span class="time">15–45 min</span>
+            <span class="tag midnight">Current</span>
+          </div>
+          <div class="card">
+            <div class="mounts">
+              <span class="mount"><strong>Insatiable Shredclaw</strong></span>
+              <span class="mount"><strong>Untainted Grove Crawler</strong></span>
+              <span class="mount"><strong>Ancestral War Bear</strong></span>
+              <span class="mount">Crimson Dragonhawk</span>
+            </div>
+            <p class="tip">If the character is already in Midnight zones:</p>
+            <p class="tip">• Voidstorm cave puzzle for Shredclaw (avoid the lightning)</p>
+            <p class="tip">• Harandar Fungal Mallet + Gong for Grove Crawler</p>
+            <p class="tip">• Zul’Aman urns for Ancestral War Bear tokens</p>
+            <p class="tip">• Zone glyphs for Crimson Dragonhawk (exploration)</p>
+            <p class="tip">Low-tier Delves also feed Undercoin vendor mounts.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section>
+      <div class="yield-box">
+        <h3>Expected Session Yield</h3>
+        <div class="yield-number">8 – 15+</div>
+        <p>Guaranteed core of 4 solid mounts (Black + Twilight + Bronze + Amani Bear)<br>
+        plus several more from Shadowlands, trials, and Midnight depending on time and luck.</p>
+      </div>
+    </section>
+
+    <section>
+      <h2><span class="icon">📅</span> Continuation List</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.95rem;">After the session, use these as daily/weekly routines. Mount Route Planner will keep prioritizing what you still need.</p>
+
+      <details open>
+        <summary>Daily Heroic / Timed (Reset every day)</summary>
+        <div class="details-body">
+          <ul>
+            <li><strong>Bronze Drake</strong> <span class="source">Culling of Stratholme HC</span> <span class="rate high">100% timed</span></li>
+            <li><strong>Amani Battle Bear</strong> <span class="source">Zul’Aman HC</span> <span class="rate high">100% timed</span></li>
+            <li><strong>Swift White Hawkstrider</strong> <span class="source">Magisters’ Terrace HC</span> <span class="rate">~3%</span></li>
+            <li><strong>Raven Lord</strong> <span class="source">Sethekk Halls HC</span> <span class="rate">~1%</span></li>
+            <li><strong>Blue Proto-Drake</strong> <span class="source">Utgarde Pinnacle HC</span> <span class="rate">~1%</span></li>
+            <li><strong>Swift Zulian Panther / Armored Razzashi Raptor</strong> <span class="source">Zul’Gurub HC</span> <span class="rate">~1%</span></li>
+            <li><strong>Marrowfang</strong> <span class="source">Necrotic Wake Mythic</span> <span class="rate">~1%</span></li>
+            <li><strong>Cartel Master’s Gearglider</strong> <span class="source">Tazavesh</span> <span class="rate">~2%</span></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Weekly Raids (Reset Tue US / Wed EU)</summary>
+        <div class="details-body">
+          <ul>
+            <li><strong>Black / Twilight Drake</strong> <span class="source">Obsidian Sanctum (already done)</span> <span class="rate high">100%</span></li>
+            <li><strong>Fiery Warhorse / Midnight</strong> <span class="source">Karazhan / Return to Karazhan</span></li>
+            <li><strong>Ashes of Al’ar</strong> <span class="source">Tempest Keep (The Eye)</span></li>
+            <li><strong>Onyxian Drake</strong> <span class="source">Onyxia’s Lair</span></li>
+            <li><strong>Azure / Blue Drake</strong> <span class="source">Eye of Eternity</span></li>
+            <li><strong>Mimiron’s Head</strong> <span class="source">Ulduar (Yogg, no keepers)</span></li>
+            <li><strong>Invincible</strong> <span class="source">Icecrown Citadel 25 HC</span></li>
+            <li><strong>Flametalon of Alysrazor / Smoldering Egg</strong> <span class="source">Firelands</span></li>
+            <li><strong>Experiment 12-B / Blazing Drake / Handmaiden</strong> <span class="source">Dragon Soul</span></li>
+            <li><strong>Living Infernal Core / Fiendish Hellfire Core</strong> <span class="source">Nighthold</span></li>
+            <li><strong>Antoran Charhound / Shackled Ur’zul</strong> <span class="source">Antorus</span></li>
+            <li>Many more from MoP / WoD / Legion / BfA world bosses and raids</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Other High-Value Farms</summary>
+        <div class="details-body">
+          <ul>
+            <li>Shadowlands rares, quests, and covenant Renown mounts</li>
+            <li>World rares + treasures in every expansion (RareScanner will flag them)</li>
+            <li>Reputation vendors (Pandaria cloud serpents, racial vendors, etc.)</li>
+            <li>Protoform Synthesis (Zereth Mortis) craftable mounts</li>
+            <li>Midnight: Delves (Undercoin), Prey Journey, Renown, moths, glyphs, fishing</li>
+            <li>Cheap vendor mounts once you have a little gold (Mei Francis in Dalaran, yaks, camels…)</li>
+            <li>Exploration & achievement mounts</li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section>
+      <h2><span class="icon">⚡</span> Efficiency Tips</h2>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <strong>Use MRP every login</strong>
+          It re-scans and keeps the route personalized so you never farm what you already own.
+        </div>
+        <div class="tip-card">
+          <strong>Alts multiply weeklies</strong>
+          Extra characters = extra lockouts for rare drops. Biggest long-term multiplier.
+        </div>
+        <div class="tip-card">
+          <strong>Speed classes</strong>
+          Demon Hunter, Druid, Monk, and Hunter make the runs feel much faster.
+        </div>
+        <div class="tip-card">
+          <strong>Loot & vendor</strong>
+          Old content drops plenty of vendor trash. It funds repairs and future vendor mounts.
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>
+    Built for a focused single session + sustainable follow-up.<br>
+    Open <strong>Mount Route Planner</strong> in-game after installing the addons — it turns this page into a live guided path with personal waypoints.<br>
+    Based on the classic daily/weekly dungeon &amp; raid mounts framework (Wowhead) expanded for new players.<br>
+    <span style="opacity:0.6;">Midnight • July 2026</span>
+  </footer>
+</body>
+</html>
